@@ -164,6 +164,7 @@ const Dashboard = () => {
     console.log(item);
     setCoords(item.center);
     selectLocationName(item.place_name)
+    window.location.href="#map"
   };
 
   const CircleData = geoArray &&  {
@@ -457,7 +458,7 @@ const Dashboard = () => {
                   <div className="absolute flex z-10 text-black h-full w-full justify-center items-center">
                     <div className="flex flex-col items-center">
                       <span className="font-bold text-lg md:text-7xl ">
-                        {`${avgRadius()} m`}
+                        {`${Math.round(avgRadius())} m`}
                       </span>
 
                       <span className="text-xs md:text-lg">
@@ -468,7 +469,7 @@ const Dashboard = () => {
                 </span>
               </div>
             </div>
-            <div className="relative bg-white text-center">
+            <div className="relative bg-white text-center" id="map">
               <h2>
                 Map Visualization
               </h2>
@@ -497,26 +498,3 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-/* [{
-    "key": "1684604523117",
-    "center": [
-        6.82977,
-        6.232944
-    ],
-    "contact_info": "69696420",
-    "date": "1684604523117",
-    "id": "place.420006",
-    "place_name": "Anambra East, Anambra, Nigeria"
-}
-,
-{
-    "key": "1684673646466",
-    "center": [
-        3.4389293,
-        6.9788582
-    ],
-    "contact_info": "+2347051807727",
-    "date": "1684673646466",
-    "id": "region.287910",
-    "place_name": "Ogun, Nigeria"
-}] */

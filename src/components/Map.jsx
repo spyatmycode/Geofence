@@ -49,7 +49,7 @@ const Map = ({ coords, city, locationname }) => {
             center: coords ? coords: [0,0],
             zoom: zoom
         });
-    });
+    },[]);
 
     useEffect(() => {
         if (!map.current) return; // wait for map to initialize

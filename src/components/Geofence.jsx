@@ -1,42 +1,101 @@
+
+// These are all the imports needed for our code. 
+
+
+
+
+
+
 import React, {
   useEffect,
   useState,
   useRef,
   useContext,
-  useMemo,
   useCallback,
 } from "react";
+
+//Line 7 to 13 involves imports from React that are necessary for front end
+
+
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import * as turf from "@turf/turf";
+
+//Line 17 to 19 shows the imports from Mapbox, a framework used to visualize the locations through the use of maps.
+
 import { countries } from "./countries";
+
+//Line 26: we are importing the list of documented countries in the world in our countries.jsx file
+
 import { toast } from "react-hot-toast";
+
+//Line 30: this is a module imported from react-hot-toast that provides UI for notifications
+
 import { AuthContext } from "../contexts/AuthProvider";
+
+//Line 34: Auth context is file we made that allows us to access all the data passed through it in the children component.
+
 import { set, onValue, ref } from "firebase/database";
+
+//Line 38: We are making use of realtime database provided by firebase.
+// Set allows us to add data objects to the database. Ref just means the database reference.
+
 import { database } from "../firebase/firebase";
+
+//Line 43: database is a variable that represents the initialisation of the realtime database in the firebase.js file
+
 import loader from "../assets/220 (2).gif";
+
+//Line 47: Loader is just an imported asset from our assets folder. It just represents that loader gif that we see throughout the project.
+
+
 import { v4 } from "uuid";
+
+//Line 52: v4 is a function imported from the uuid module that allows us to generate unique values 
+
 mapboxgl.accessToken =
-  "pk.eyJ1IjoibmlmZW1pYWtlanUiLCJhIjoiY2xmZ2oyNnByMjY4NjN4bXVqdTFhMTJwdyJ9.4KIcco40zj3xvngYzWNmjg";
+  "pk.eyJ1IjoibmlmZW1pYWtlanUiLCJhIjoiY2xmZ2oyNnByMjY4NjN4bXVqdTFhMTJwdyJ9.4KIcco40zj3xvngYzWNmjg"; 
+
+  // Line 56: This represents the token for the Mapbox framework being used.
+
+
+  // ***************************************************************************************
+
+  //All variables beginning with capital letter represent Components
 
 const GeoModal = ({ location, query, cancel, radius }) => {
+
+  // Line 66: location, query, cancel, radius are all props passed into the Geomodal from the Geofence component
+
   const { user } = useContext(AuthContext);
 
   const uid = v4();
 
+  //Line 69: the uid variable contains the generated unique ID's
+
   const { id, center, place_name } = location;
 
-  const [contactInfo, setContactInfo] = useState("+234");
+  // Line 76: here we are destructuring the ID, center coordinates and placename from the retrieved location which is an object.
+  
+
+  const [contactInfo, setContactInfo] = useState("234");
+
+  //Line 81: this is a use State that contains contact info or phone number.
 
   const [loading, setLoading] = useState(false);
 
-  console.log(uid);
+  //Line 85: this just stores the loading state. When it is true the loader shows and vice versa. However as we can see it is false.
+
+
 
   const date = new Date();
 
-  console.log("Its meeeeee");
+  //Line 91: the date variable just stores a new date object.
+
+
 
   const timeLine = `${date.getTime()}`;
+
 
   const newGeolocation = {
     center: center,
@@ -48,10 +107,9 @@ const GeoModal = ({ location, query, cancel, radius }) => {
     query: query,
   };
 
-  const geolocationRef = ref(
-    database,
-    `users/${user.uid}/geolocationHistory/${timeLine}`
-  );
+  //Line 100: We initialize a new geolocation object that has the following properties such as center, place_name, contact_info, id, time line and the rest.
+
+ 
 
   const addGeolocation = async (e) => {
     e.preventDefault();
@@ -67,8 +125,13 @@ const GeoModal = ({ location, query, cancel, radius }) => {
       .catch((err) => toast.error("Error"));
   };
 
+  //Line 114: the addGeolocation function allows use to set the geolocation object the database.
+
   return (
+
+    //The below we are seeing is just the rendering of the Geofence components.
     <>
+    {/* The below we make use of CONDITIONAL RENDERINGN based on availability of the locatuon */}
       {location ? (
         <div className="flex flex-col md:flex-row m-5  justify-center items-center px-5 py-7 shadow mt-10 border divide-x bg-white rounded-lg">
           <div className="flex flex-col w-1/2 justify-between gap-4">
@@ -142,7 +205,11 @@ const GeoModal = ({ location, query, cancel, radius }) => {
   );
 };
 
+
+
 const Map = () => {
+
+  //Line 210: this is the main MAP COMPONENT that is visible on entering the Geofence page
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [geofence, setGeofence] = useState({
@@ -151,13 +218,17 @@ const Map = () => {
     country: "NG",
   });
 
-  const { longitude, latitude } = useContext(AuthContext);
+  // Line 215: We initialize the geofence state in with an object that has location, radius and country as its properties
+
+
 
   const [coords, setCoords] = useState([6.6859, 3.1711]);
   const [results, setResults] = useState([]);
   const [didSearch, setDidSearch] = useState(false);
   const [chosenSearch, setChosenSearch] = useState({});
   const [didSelect, setDidSelect] = useState(false);
+
+  //All the USE-EFFECTS IN THIS CODE ARE JUST TO INITIALIZE THE MAP AND ITS FUNCTIONALITIES. I.E THESE USE-EFFECTS WATCH OUT FOR COMPONENT MOUNTS MEANING WHEN WE FIRST OPEN THE PAGE AND THEN WATCHES OUT FOR ANY CHANGES.
 
   useEffect(() => {
     if (!map.current) {
@@ -179,7 +250,12 @@ const Map = () => {
     }
   }, [coords]);
 
+
+
+
   const handleSubmit = async (e) => {
+
+    //The handleSubmit function passes all the collected data from the inputs and passes it to the MAPBOX APIS that will give a reponse with data.
     e.preventDefault();
 
     try {
@@ -196,10 +272,14 @@ const Map = () => {
       setDidSearch(false);
 
       switch (error.message) {
+
+
         case "Cannot read properties of undefined (reading 'center')":
           toast.error("Cannot find location");
           break;
       }
+
+      //Line 272: this function logs/prints out any errors in the console. right click on your the web page and click inspect to view the console.
     }
   };
 
@@ -254,6 +334,8 @@ const Map = () => {
   }, [coords, geofence.radius, addCircleLayer]);
 
   const selectLocation = (center, fullItem) => {
+
+    //The function above is responsible for setting the variable that stores the selected location.
     const newCenter = center;
     setCoords(newCenter);
 
@@ -263,6 +345,8 @@ const Map = () => {
   };
 
   return (
+
+    //The below shows the components that are being rendered
     <>
       <nav className="w-full font-bold text-4xl p-10 text-blue-500">
         
@@ -351,6 +435,8 @@ const Map = () => {
           </div>
         </form>
 
+        {/* The below we are conditional rendering the GeoModal that shows the location and requests for the Contact details of the next of kin or relative */}
+
         {didSelect && (
           <GeoModal
             radius={Number(geofence.radius)}
@@ -359,7 +445,7 @@ const Map = () => {
             cancel={setDidSelect}
           />
         )}
-        {console.log(123)}
+        
       </div>
     </>
   );

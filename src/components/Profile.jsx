@@ -117,7 +117,7 @@ const Profile = () => {
             </div>
             <div className="flex flex-col w-2/3">
               <label htmlFor="" className="font-bold">
-                Phone Number
+                Phone Number of Next of Kin
               </label>
               <input
                 type="text"

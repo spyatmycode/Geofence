@@ -7,7 +7,6 @@ import NavBar from "./components/Nav";
 import { Toaster } from "react-hot-toast";
 import Profile from "./components/Profile";
 import Geofence from "./components/Geofence";
-import Google from "./components/Google";
 import Dashboard from "./components/Dashboard";
 import Database from "./contexts/Database";
 const App = () => {
@@ -83,11 +82,13 @@ const App = () => {
               <Route
                 element={
                   <Protected>
-                    <Google />
+                    <Geofence />
                   </Protected>
                 }
-                path="/test"
+                path="/"
+                index
               />
+             
               <Route
                 element={
                   <Protected>
