@@ -19,7 +19,7 @@ const CircularNav = () => {
       toast.error(`${error.message}`)
     }
   }
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   return (
     <div className="fixed right-10 cursor-pointer bottom-10 z-50 list-none flex flex-col items-center">
       {open && (

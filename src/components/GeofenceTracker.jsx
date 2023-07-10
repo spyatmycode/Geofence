@@ -171,7 +171,7 @@ getLocationName()
   return (
     <>
     <div className="w-full ml-20 text-blue-600 font-bold text-2xl py-5">
-      Home
+      Home - Current Geofence Data
     </div>
       <div className="rounded-lg shadow-md flex items-center flex-row-reverse justify-around  p-4 mx-7 bg-[#FE8071] text-white">
         <div className="w-32 h-32 rounded-full border-[5px] border-black overflow-hidden">
@@ -184,10 +184,10 @@ getLocationName()
 
       
         <div className="flex flex-col ">
-          <span className="font-bold text-2xl">{userDb && userDb.firstname}</span>
-          <span>{userDb && userDb.lastname}</span>
+          <span className="font-bold text-3xl">{userDb && userDb.firstname}</span>
+          <span className="text-xl">{userDb && userDb.lastname}</span>
           <span>Current Location:</span>
-          <span className="text-black font-bold">{latitude}, {longitude}</span>
+          <span className="text-black font-bold text-xl">{latitude || "6.6859° N"}, {longitude ||  "3.1711° E"}</span>
         </div>
       </div>
 

@@ -129,7 +129,7 @@ const NavBar = () => {
                     ) : <span className='ml-2 font-semibold opacity-0'>Profile</span>}
                   </Link>
                 </li>
-                <li className='flex items-center list-none mt-10 px-10 pt-0 mb-10 h-10 pr-10   rounded-lg w-48'>
+                {/* <li className='flex items-center list-none mt-10 px-10 pt-0 mb-10 h-10 pr-10   rounded-lg w-48'>
                   <Link
                     to='/home'
                     className='flex items-center h-full no-underline rounded-md transition-all duration-300 w-full'
@@ -140,7 +140,7 @@ const NavBar = () => {
                     ) : <span className='ml-2 font-semibold opacity-0'>Test</span>}
                   </Link>
                 </li>
-               
+                */}
               </ul>
             </div>
             {/* bottom content beginning */}

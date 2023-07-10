@@ -3,37 +3,16 @@ import Database, { DatabaseContext } from "../contexts/Database";
 import girl from "../assets/girl.jpeg";
 import { AuthContext } from "../contexts/AuthProvider";
 import { toast } from "react-hot-toast";
+import loader from '../assets/220 (2).gif'
 const Messaging = () => {
   const { user, userDb } = useContext(AuthContext);
   const { data } = useContext(DatabaseContext);
   const [geoObject, setGeoObject] = useState({});
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const [loading, setLoading] = useState(false)
 
- /*  useEffect(() => {
-    // Check if geolocation is supported by the browser
-    if (!navigator.geolocation) {
-      setError("Geolocation is not supported by your browser");
-      return;
-    }
 
-    setInterval(() => {
-      console.log(12369696);
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLatitude(position.coords.latitude);
-          setLongitude(position.coords.longitude);
-        },
-        (error) => {
-          setError(`Error: ${error.message}`);
-        }
-      );
-
-     
-    }, 10000);
-
-    // Get the current position
-  }, [latitude, longitude]); */
 
 
   const { geolocationHistory } = data;
@@ -136,9 +115,10 @@ const Messaging = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
 
     try {
-      const response = await fetch("http://localhost:3000/submit", {
+      const response = await fetch("https://geofence-server-1.onrender.com/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -148,9 +128,10 @@ const Messaging = () => {
 
       const data = await response
         .json()
-        .then(() => toast.success("Success: Message sent successfully"));
+        .then(() => {toast.success("Success: Message sent successfully");setLoading(false)});
       console.log(data);
     } catch (error) {
+        setLoading(false)
       toast.error(err.message);
     }
   };
@@ -196,9 +177,9 @@ const Messaging = () => {
             ></textarea>
           </span>
           <span></span>
-          <span className="w-full">
-            <button className="w-full bg-blue-700 text-white p-2" type="submit">
-              Send Message
+          <span className="w-full ">
+            <button className="w-full  flex text-center justify-center items-center bg-blue-700 text-white p-2" type="submit">
+              {loading?<img width={60} src={loader}/>:"Send Message"}
             </button>
           </span>
         </form>
