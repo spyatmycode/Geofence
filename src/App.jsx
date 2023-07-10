@@ -9,6 +9,8 @@ import Profile from "./components/Profile";
 import Geofence from "./components/Geofence";
 import Dashboard from "./components/Dashboard";
 import Database from "./contexts/Database";
+import Messaging from "./components/Messaging";
+import GeofenceTracker from './components/GeofenceTracker'
 const App = () => {
   return (
     <>
@@ -71,12 +73,33 @@ const App = () => {
                 path="/profile"
               />
               <Route
+
+              
+                element={
+                  <Protected>
+                    <Database>
+                    <GeofenceTracker />
+                    </Database>
+                  </Protected>
+                }
+                path="/home"
+              />
+              <Route
                 element={
                   <Protected>
                     <Geofence />
                   </Protected>
                 }
                 path="/geofence"
+                index
+              />
+              <Route
+                element={
+                < Database>
+                 <Messaging />
+                </Database>
+                }
+                path="/messaging"
                 index
               />
               <Route

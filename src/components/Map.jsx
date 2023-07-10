@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import mapboxgl from 'mapbox-gl' // eslint-disable-line import/no-webpack-loader-syntax
 import { FaInfo } from 'react-icons/fa'
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -94,19 +94,6 @@ const Map = ({ coords, city, locationname }) => {
             'right': [-markerRadius, (markerHeight - markerRadius) * -1]
         };
 
-        /* const Nifemi =`<div id="nifemi" style="width:200px;text-align:center;font-size:20px" >
-                 <span>${city.name}</span>
-                 <i class="fa fa-info-circle" style="cursor:pointer;" id="info"></i>
-
-                 <ul id="infoData" style="">
-                 <h3 style="margin:10px;text-decoration:underline">Weather Info</h3>
-                 <li>Today: ${weatherData?.days[0]?.temp} °C / ${weatherData?.days[0]?.conditions}</li>
-                 <br/>
-                 <li>Tomorrow: ${weatherData?.days[1]?.temp} °C / ${weatherData?.days[1]?.conditions}</li>
-                 </ul>
-
-        </div>
-        ` */
         const popup = new mapboxgl.Popup({ offset: popupOffsets, className: 'my-class',closeOnClick: true  })
             .setLngLat(coords ? coords: [0,0])
             .setHTML(`<div>${locationname}</div>`)
@@ -132,6 +119,52 @@ const Map = ({ coords, city, locationname }) => {
 
             
     },[coords])
+
+    const addCircleLayer = useCallback(() => {
+        // Add Circle Radius
+        const center = coords;
+        const radius = Number(10);
+    
+        const options = {
+          steps: 0,
+          units: "kilometers",
+        };
+    
+        let circle = turf.circle(coords, radius, options);
+    
+        map.current.addSource("circleData", {
+          type: "geojson",
+          data: circle,
+        });
+    
+        map.current.addLayer({
+          id: "circle-fill",
+          type: "fill",
+          source: "circleData",
+          paint: {
+            "fill-color": "red",
+            "fill-opacity": 0.2,
+          },
+        });
+      }, [coords, 10]);
+    
+      useEffect(() => {
+        if (!map.current) return;
+    
+        if (!map.current.getSource("circleData")) {
+          // If the circle layer doesn't exist, add it
+          map.current.on("load", addCircleLayer);
+        } else {
+          // If the circle layer already exists, update the data
+          const circleData = turf.circle(coords, Number(geofence.radius), {
+            steps: 20,
+            units: "kilometers",
+          });
+          map.current.getSource("circleData").setData(circleData);
+        }
+      }, [coords, 10, addCircleLayer]);
+    
+     
 
 
 

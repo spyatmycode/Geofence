@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { AuthContext } from "../contexts/AuthProvider";
 import { updateProfile, updatePhoneNumber, updateEmail } from "firebase/auth";
+import girl from '../assets/girl.jpeg'
 import { auth } from "../firebase/firebase";
 import { toast } from "react-hot-toast";
 import loader from "../assets/220 (2).gif";
@@ -22,6 +23,7 @@ const Profile = () => {
     lastname: userDb.lastname || "",
     email: userDb.email || "",
     phone: userDb.phoneNumber || "",
+    nextofkin:userDb.nextofkin|| ""
   });
 
   const updateInfo = async (e) => {
@@ -56,6 +58,7 @@ const Profile = () => {
       lastname: userInputs.lastname,
       email: userInputs.email,
       phonenumber: userInputs.phone,
+      nextofkin:userInputs.nextofkin
     });
   };
 
@@ -70,9 +73,15 @@ const Profile = () => {
       <nav className=" w-full font-bold text-4xl p-10 text-blue-500">Your Profile</nav>
       <div className="w-full">
         <div className="flex justify-center items-center p-10 flex-col">
-          <FaUserCircle size={100} />
+        <div className="w-32 h-32 rounded-full border-2 border-blue-500 overflow-hidden">
+          <img
+            src={girl}
+            alt="Profile Image"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-          <div className="font-bold">Username</div>
+          <div className="font-bold">{userDb.firstname || ""}</div>
         </div>
 
         <form onSubmit={(e) => updateInfo(e)}>
@@ -126,6 +135,19 @@ const Profile = () => {
                 className="outline-none border-b-[2px] border-blue-700  p-2"
                 onChange={(e) => handleChange(e)}
                 name="phone"
+              />
+            </div>
+            <div className="flex flex-col w-2/3">
+              <label htmlFor="" className="font-bold">
+                Name of Next of Kin
+              </label>
+              <input
+                type="text"
+                defaultValue={userDb.nextofkin || ""}
+                placeholder="Enter Name of Next of Kin"
+                className="outline-none border-b-[2px] border-blue-700  p-2"
+                onChange={(e) => handleChange(e)}
+                name="nextofkin"
               />
             </div>
           </div>

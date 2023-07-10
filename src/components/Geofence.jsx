@@ -2,10 +2,6 @@
 // These are all the imports needed for our code. 
 
 
-
-
-
-
 import React, {
   useEffect,
   useState,
@@ -13,6 +9,8 @@ import React, {
   useContext,
   useCallback,
 } from "react";
+
+import { useNavigate } from "react-router-dom";
 
 //Line 7 to 13 involves imports from React that are necessary for front end
 
@@ -109,7 +107,7 @@ const GeoModal = ({ location, query, cancel, radius }) => {
 
   //Line 100: We initialize a new geolocation object that has the following properties such as center, place_name, contact_info, id, time line and the rest.
 
- 
+ const navigate = useNavigate()
 
   const addGeolocation = async (e) => {
     e.preventDefault();
@@ -121,6 +119,8 @@ const GeoModal = ({ location, query, cancel, radius }) => {
       .then(() => {
         setLoading(false);
         toast.success("Geolocation pushed ");
+        navigate("/dashboard")
+        
       })
       .catch((err) => toast.error("Error"));
   };
@@ -222,7 +222,7 @@ const Map = () => {
 
 
 
-  const [coords, setCoords] = useState([6.6859, 3.1711]);
+  const [coords, setCoords] = useState([3.1711, 6.6859]);
   const [results, setResults] = useState([]);
   const [didSearch, setDidSearch] = useState(false);
   const [chosenSearch, setChosenSearch] = useState({});
@@ -357,15 +357,15 @@ const Map = () => {
         <div ref={mapContainer} className="h-[400px] w-full" />
 
         <div className="flex justify-center items-center text-2xl my-5">
-          <h1>Create Geofence</h1>
+          <h1 className="text-2xl font-bold text-blue-700 italic">Create a New Geofence</h1>
         </div>
 
-        <form onSubmit={handleSubmit} className="my-10 overflow-x-auto">
-          <div className="flex gap-4">
+        <form onSubmit={handleSubmit} className="my-10  flex flex-col">
+          <div className="rounded-sm bg-white p-4 flex gap-4 flex-col lg:flex-row items-center ">
             <input
               type="text"
               placeholder="Enter Location..."
-              className="rounded-md px-5 py-3 border-2 border-gray-400"
+              className="rounded-md px-5 py-3 w-[200px] border-2 border-gray-400"
               value={geofence.location}
               name="location"
               onChange={handleChange}

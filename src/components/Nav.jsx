@@ -21,6 +21,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import CircularNav from './CircularNav';
 
 
 
@@ -34,10 +35,10 @@ const NavBar = () => {
   };
 
   const sidebar =
-    'dark:bg-[#21334C] bg-[#E4E9F7]  h-full fixed left-0 pb-10 pl-7  top-0 transition-all duration-500 w-1/5 z-10 ';
+    'dark:bg-[#21334C] bg-[#E4E9F7] hidden lg:block  h-full fixed left-0 pb-10 pl-7  top-0 transition-all duration-500 w-1/5 z-10 ';
 
   const sidebarClose =
-    'dark:bg-[#21334C] bg-[#E4E9F7] h-full pb-10 fixed left-0    top-0 transition-all duration-500 w-28  z-10';
+    'dark:bg-[#21334C] bg-[#E4E9F7] h-full pb-10 fixed left-0 hidden lg:block   top-0 transition-all duration-500 w-28  z-10';
 
   const handleSignOut = async () => {
     try {
@@ -52,7 +53,9 @@ const NavBar = () => {
 
   return (
     <>
+      
       <div className='flex w-screen'>
+      
         <nav className={` ${!navExpand ? sidebarClose : sidebar}`}>
           {/* header */}
           <header>
@@ -81,7 +84,7 @@ const NavBar = () => {
               
                 <li className='flex items-center list-none mt-10 px-10 pt-0 mb-10 h-10 pr-10  rounded-lg w-48'>
                   <Link
-                    to='/'
+                    to='/home'
                     className=' flex items-center h-full no-underline rounded-md transition-all duration-200 w-full'
                   >
                     <FaHome size='20px' />
@@ -128,7 +131,7 @@ const NavBar = () => {
                 </li>
                 <li className='flex items-center list-none mt-10 px-10 pt-0 mb-10 h-10 pr-10   rounded-lg w-48'>
                   <Link
-                    to='/test'
+                    to='/home'
                     className='flex items-center h-full no-underline rounded-md transition-all duration-300 w-full'
                   >
                     <FaPen size='20px' />
@@ -161,7 +164,8 @@ const NavBar = () => {
             </div>
           </div>
         </nav>
-        <div className={navExpand === true? 'h-full w-4/5 bg-gray-200  transition-all duration-500 fixed overflow-scroll right-0': 'w-[calc(100%-7rem)] h-full bg-gray-200  overflow-x-hidden fixed right-0 transition-all duration-500 '}>
+        <div className={navExpand === true? 'h-full w-full lg:w-4/5 bg-gray-200  transition-all duration-500 fixed overflow-scroll right-0': 'w-full lg:w-[calc(100%-7rem)] h-full bg-[#06050523]  overflow-x-hidden fixed right-0 transition-all duration-500 '}>
+        <CircularNav/>
           <Outlet />
         </div>
       </div>

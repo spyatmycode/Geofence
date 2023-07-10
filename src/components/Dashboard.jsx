@@ -79,6 +79,8 @@ const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const { data } = useContext(DatabaseContext);
 
+  console.log(data);
+
   const { user } = useContext(AuthContext);
 
   const { geolocationHistory } = data;
@@ -271,6 +273,8 @@ const Dashboard = () => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                           {geoArray.map((each) => {
+
+                            console.log(each);
                             const {
                               center,
                               contact_info,
@@ -396,6 +400,13 @@ const Dashboard = () => {
 
           <div className=" flex flex-col lg:grid lg:grid-cols-3 place-content-center place-items-center h-full w-full justify-between items-center  p-5 gap-y-10 my-10">
 
+          <div className="relative bg-white text-center" id="map">
+              <h2>
+                Map Visualization
+              </h2>
+              <Map coords={coords} locationname={locationName}/>
+            </div>
+
             {/* <div
               id="stats"
               className="bg-white flex gap-10 items-center justify-center p-5 rounded-md shadow-xl h-[400px] border-2"
@@ -469,12 +480,7 @@ const Dashboard = () => {
                 </span>
               </div>
             </div>
-            <div className="relative bg-white text-center" id="map">
-              <h2>
-                Map Visualization
-              </h2>
-              <Map coords={coords} locationname={locationName}/>
-            </div>
+            
           </div>
         </div>
       ) : (

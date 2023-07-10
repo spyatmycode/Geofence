@@ -7,3 +7,29 @@ html{
     scroll-behavior: smooth;
     transition: 10s ease;
 }
+
+
+.mobile_l{
+
+    animation-name: slide;
+    animation-duration: .6s;
+
+}
+
+@keyframes slide{
+    0%{
+        transform: translateX(50%);
+    };
+    50%{
+        transform: translateX(25%);
+    };
+    0%{
+        transform: translateX(0%);
+    }
+}
+
+.mapboxgl-canvas{
+    position: absolute;
+    left:0;
+    top: 0;
+  }
