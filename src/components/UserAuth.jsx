@@ -305,6 +305,8 @@ const Register = ({ setCurrent }) => {
                   Sign in
                 </span>
               </span>
+             
+            
             </form>
           </Slide>
         </div>

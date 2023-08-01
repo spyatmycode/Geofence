@@ -1,9 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
+import dotenv from "dotenv"
+
+dotenv.config()
 
 
 const app = express();
+
+console.log(process.env.SENDCHAMP_AUTH);
 
 // Enable CORS
 app.use(cors());
@@ -30,7 +35,7 @@ app.post('/submit',  async (req, res) => {
   
   const config = {
     headers:{
-      Authorization: "Bearer sendchamp_live_$2a$10$cbYEsziD//Xfmkvd/nsxC.hP.GZHkm3uOQB5lDOZoMzjuCNoBd7Qi"
+      Authorization: process.env.SENDCHAMP_AUTH
     }
   }
 
@@ -47,7 +52,7 @@ app.post('/submit',  async (req, res) => {
 });
 
 // Start the server
-const port = 3000;
+const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
